@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YT Focus Blocker</title>
+  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="icon.png" alt="Logo">
+        <h1>Focus YT</h1>
+      </div>
+      <p class="subtitle">Stay productive, block noise.</p>
+    </header>
+
+    <main>
+      <div class="toggle-group">
+        <div class="toggle-item">
+          <div class="text">
+            <h3>Home Page</h3>
+            <p>Hide the recommendations feed</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="blockHome" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-item">
+          <div class="text">
+            <h3>Sidebar</h3>
+            <p>Hide "Up next" & related videos</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="blockSidebar" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-item">
+          <div class="text">
+            <h3>Comments</h3>
+            <p>Hide the comment section</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="blockComments">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-item">
+          <div class="text">
+            <h3>Shorts</h3>
+            <p>Hide Shorts shelves & tab</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="blockShorts" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>Settings are applied instantly.</p>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

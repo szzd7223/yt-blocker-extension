@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "YT Focus Blocker",
+  "version": "1.0",
+  "description": "Simple extension to block distracting YouTube elements like homepage and sidebar recommendations.",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "YT Focus Blocker"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "48": "icon.png",
+    "96": "icon.png",
+    "128": "icon.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "yt-focus-blocker@antigravity.ai"
+    }
+  }
+}
