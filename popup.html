@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YT Focus Blocker</title>
+  <title>VoidTube</title>
   <link rel="stylesheet" href="popup.css">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
   <div class="container">
     <header>
-      <div class="logo">
-        <img src="icon.png" alt="Logo">
-        <h1>Focus YT</h1>
+      <div class="header-main">
+        <div class="logo">
+          <div class="logo-icon"></div>
+          <div class="logo-text">
+            <h1>VoidTube</h1>
+            <p class="subtitle">Focus is your power.</p>
+          </div>
+        </div>
+        <div class="master-switch-container">
+          <label class="master-switch">
+            <input type="checkbox" id="masterSwitch" checked>
+            <span class="master-slider"></span>
+          </label>
+        </div>
       </div>
-      <p class="subtitle">Stay productive, block noise.</p>
     </header>
 
-    <main>
+    <main id="settingsList">
+      <div class="section-label">BLOCK ELEMENTS</div>
+
       <div class="toggle-group">
         <div class="toggle-item">
           <div class="text">
-            <h3>Home Page</h3>
-            <p>Hide the recommendations feed</p>
+            <h3>Home Feed</h3>
+            <p>Hide the central recommendation wall</p>
           </div>
           <label class="switch">
             <input type="checkbox" id="blockHome" checked>
@@ -44,7 +58,7 @@
         <div class="toggle-item">
           <div class="text">
             <h3>Comments</h3>
-            <p>Hide the comment section</p>
+            <p>Hide the entire comment section</p>
           </div>
           <label class="switch">
             <input type="checkbox" id="blockComments">
@@ -55,7 +69,7 @@
         <div class="toggle-item">
           <div class="text">
             <h3>Shorts</h3>
-            <p>Hide Shorts shelves & tab</p>
+            <p>Hide Shorts shelves & navigation</p>
           </div>
           <label class="switch">
             <input type="checkbox" id="blockShorts" checked>
@@ -66,9 +80,10 @@
     </main>
 
     <footer>
-      <p>Settings are applied instantly.</p>
+      <div class="footer-status" id="statusText">Protection Active</div>
     </footer>
   </div>
   <script src="popup.js"></script>
 </body>
+
 </html>

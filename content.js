@@ -21,59 +21,75 @@ const SELECTORS = {
     ytd-mini-guide-entry-renderer:has(a[title="Shorts"]) { display: none !important; }
     a[title="Shorts"] { display: none !important; }
     [is-shorts] { display: none !important; }
+    ytd-pivot-bar-item-renderer:has(a[title="Shorts"]) { display: none !important; }
   `
 };
 
 let styleElement = null;
 
-// Initialize styles
-async function init() {
-  const settings = await chrome.storage.local.get({
-    blockHome: true,
-    blockSidebar: true,
-    blockComments: false,
-    blockShorts: true
-  });
-
-  applyStyles(settings);
-
-  // Listen for changes
-  chrome.storage.onChanged.addListener((changes) => {
-    chrome.storage.local.get(null, (newSettings) => {
-      applyStyles(newSettings);
+// The core function to fetch and apply everything
+async function update() {
+  try {
+    const settings = await chrome.storage.local.get({
+      masterEnabled: true,
+      blockHome: true,
+      blockSidebar: true,
+      blockComments: false,
+      blockShorts: true
     });
-  });
+
+    applyStyles(settings);
+  } catch (e) {
+    console.error("Focus YT: Failed to update settings", e);
+  }
 }
 
 function applyStyles(settings) {
+  // Create the style element if it doesn't exist
   if (!styleElement) {
     styleElement = document.createElement('style');
     styleElement.id = 'yt-focus-blocker-style';
-    (document.head || document.documentElement).appendChild(styleElement);
+    const target = document.head || document.documentElement;
+    if (target) {
+      target.appendChild(styleElement);
+    }
   }
 
   let cssContent = '';
-  for (const [key, value] of Object.entries(settings)) {
-    if (value && SELECTORS[key]) {
-      cssContent += SELECTORS[key];
+  
+  // Only build CSS if master switch is ON
+  if (settings.masterEnabled !== false) {
+    for (const key in SELECTORS) {
+      if (settings[key] === true) {
+        cssContent += SELECTORS[key];
+      }
     }
   }
-  
-  // Extra precaution for "click to play" - if home is hidden, ensure search bar is still usable
-  // Search results are usually in ytd-browse[page-subtype="search"] or ytd-search
-  // We explicitly ONLY target 'home' subtype in SELECTORS.
 
-  styleElement.textContent = cssContent;
+  // Update content - even if it's empty (this removes the blocking)
+  if (styleElement) {
+    styleElement.textContent = cssContent;
+  }
 }
 
-// Run immediately
-init();
+// Initial application
+update();
 
-// Re-inject if YouTube's SPA navigation removes it or weird things happen
-const observer = new MutationObserver(() => {
-  if (styleElement && !styleElement.parentElement) {
-    (document.head || document.documentElement).appendChild(styleElement);
+// Listen for storage changes from the popup
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === 'local') {
+    update();
   }
 });
 
-observer.observe(document.documentElement, { childList: true, subtree: true });
+// Re-inject if YouTube's navigation removes it (important for YouTube's SPA layout)
+const observer = new MutationObserver(() => {
+  const target = document.head || document.documentElement;
+  if (styleElement && target && !styleElement.parentElement) {
+    target.appendChild(styleElement);
+  }
+});
+
+if (document.documentElement) {
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+}
