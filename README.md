@@ -2,7 +2,7 @@
 
 VoidTube is the minimalist's choice for a distraction-free YouTube experience. No noise, no clutter—just your focus.
 
-![VoidTube Logo](icon.png)
+<img src="icon.png" width="96" />
 
 ---
 
